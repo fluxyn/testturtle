@@ -35,6 +35,7 @@ function getRW(data, formData) {
         alert('R&W Hard Module 2 Difficulty Distribution must add up to 27.')
         return
     }
+    console.log('good')
 }
 
 function getMath(data, formData) {
@@ -58,6 +59,7 @@ function getMath(data, formData) {
         alert('Math MCQ and SPR Distribution must add up to 22.')
         return
     }
+    console.log('good')
 }
 
 document.addEventListener('DOMContentLoaded', () => {
