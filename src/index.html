@@ -5,9 +5,193 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Turtle</title>
     <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="scripts/index.js"></script>
 </head>
 <body>
-    <h1>Hello world!</h1>
+    <main>
+        <h1>Test Turtle</h1>
+        <p>Start a new SAT practice test</p>
+        <br>
+        <form id="form">
+            <input type="checkbox" id="rw" name="rw" checked >
+            <label for="rw">Reading and Writing</label>
+            <fieldset id="rw-f" class="fieldset-hidden">
+                <legend>Settings<button type="button" onclick="toggleRW()"><i id="rw-i" class="fa-solid fa-chevron-down"></i></button></legend>
+                <div id="rw-set" class="settings-hidden">
+                    <b>Question Type Distribution (per module)</b>
+                    <label for="rw-cas">
+                        Craft and Structure:
+                        <input id="rw-cas" name="rw-cas" type="number" value="8" />
+                    </label>
+                    <br>
+                    <label for="rw-iai">
+                        Information and Ideas:
+                        <input id="rw-iai" name="rw-iai" type="number" value="7" />
+                    </label>
+                    <br>
+                    <label for="rw-sec">
+                        Standard English Conventions:
+                        <input id="rw-sec" name="rw-sec" type="number" value="7" />
+                    </label>
+                    <br>
+                    <label for="rw-eoi">
+                        Expression of Ideas:
+                        <input id="rw-eoi" name="rw-eoi" type="number" value="5" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>Module 1 Difficulty Distribution</b>
+                    <br>
+                    <label for="rw-m1e">
+                        Easy:
+                        <input id="rw-m1e" name="rw-m1e" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="rw-m1m">
+                        Medium:
+                        <input id="rw-m1m" name="rw-m1m" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="rw-m1h">
+                        Hard:
+                        <input id="rw-m1h" name="rw-m1h" type="number" value="10" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>Easy Module 2 Difficulty Distribution</b>
+                    <br>
+                    <label for="rw-em2e">
+                        Easy:
+                        <input id="rw-em2e" name="rw-em2e" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="rw-em2m">
+                        Medium:
+                        <input id="rw-em2m" name="rw-em2m" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="rw-em2h">
+                        Hard:
+                        <input id="rw-em2h" name="rw-em2h" type="number" value="10" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>Hard Module 2 Difficulty Distribution</b>
+                    <br>
+                    <label for="rw-hm2e">
+                        Easy:
+                        <input id="rw-hm2e" name="rw-hm2e" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="rw-hm2m">
+                        Medium:
+                        <input id="rw-hm2m" name="rw-hm2m" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="rw-hm2h">
+                        Hard:
+                        <input id="rw-hm2h" name="rw-hm2h" type="number" value="10" />
+                    </label>
+                </div>
+            </fieldset>
+            <input type="checkbox" id="math" name="math" checked />
+            <label for="math">Math</label>
+            <fieldset id="math-f" class="fieldset-hidden">
+                <legend>Settings<button type="button" onclick="toggleMath()"><i id="math-i" class="fa-solid fa-chevron-down"></i></button></legend>
+                <div id="math-set" class="settings-hidden">
+                    <b>Question Type Distribution (per module)</b>
+                    <label for="math-alg">
+                        Algebra:
+                        <input id="math-alg" name="math-alg" type="number" value="8" />
+                    </label>
+                    <br>
+                    <label for="math-am">
+                        Advanced Math:
+                        <input id="math-am" name="math-am" type="number" value="8" />
+                    </label>
+                    <br>
+                    <label for="math-psda">
+                        Problem-Solving and Data Analysis:
+                        <input id="math-psda" name="math-psda" type="number" value="3" />
+                    </label>
+                    <br>
+                    <label for="math-gat">
+                        Geometry and Trigonometry:
+                        <input id="math-gat" name="math-gat" type="number" value="3" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>Module 1 Difficulty Distribution</b>
+                    <br>
+                    <label for="math-m1e">
+                        Easy:
+                        <input id="math-m1e" name="math-m1e" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="math-m1m">
+                        Medium:
+                        <input id="math-m1m" name="math-m1m" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="math-m1h">
+                        Hard:
+                        <input id="math-m1h" name="math-m1h" type="number" value="10" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>Easy Module 2 Difficulty Distribution</b>
+                    <br>
+                    <label for="math-em2e">
+                        Easy:
+                        <input id="math-em2e" name="math-em2e" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="math-em2m">
+                        Medium:
+                        <input id="math-em2m" name="math-em2m" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="math-em2h">
+                        Hard:
+                        <input id="math-em2h" name="math-em2h" type="number" value="10" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>Hard Module 2 Difficulty Distribution</b>
+                    <br>
+                    <label for="math-hm2e">
+                        Easy:
+                        <input id="math-hm2e" name="math-hm2e" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="math-hm2m">
+                        Medium:
+                        <input id="math-hm2m" name="math-hm2m" type="number" value="10" />
+                    </label>
+                    <br>
+                    <label for="math-hm2h">
+                        Hard:
+                        <input id="math-hm2h" name="math-hm2h" type="number" value="10" />
+                    </label>
+                    <br>
+                    <br>
+                    <b>MCQ and SPR Distribution</b>
+                    <br>
+                    <label for="math-mcq">
+                        Multiple-Choice Questions:
+                        <input id="math-mcq" name="math-mcq" type="number" value="17" />
+                    </label>
+                    <br>
+                    <label for="math-spr">
+                        Student-Produced Responses:
+                        <input id="math-spr" name="math-spr" type="number" value="5" />
+                    </label>
+                    <br>
+                </div>
+            </fieldset>
+            <button id="submit" type="submit">Start</button>
+        </form>
+    </main>
 </body>
 </html>
