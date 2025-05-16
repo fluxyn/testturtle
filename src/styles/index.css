@@ -31,29 +31,6 @@ button {
     transform: translateX(-50%);
 }
 
-legend {
-    color: gray;
-    margin-left: 0.75em;
-    font-size: 0.75em;
-}
-
-legend button {
-    background-color: #fff;
-    border: none;
-}
-
-fieldset input {
-    width: 2.5em;
-}
-
-.fieldset-hidden {
-    border: none;
-}
-
-.settings-hidden {
-    display: none;
-}
-
 footer {
     position: absolute;
     bottom: 10px;
