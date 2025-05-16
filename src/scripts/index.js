@@ -2,42 +2,53 @@
 function* range(min, max) {
     for (let i = min; i <= max; i++) yield i;
 }
-function generateAllValidCombinations(ranges, target) {
-    const results = [];
-
+function getRandomBalancedSplitCombo(ranges, target) {
+    // Step 1: Find all valid combinations
+    const validCombos = [];
     for (let a of range(...ranges[0])) {
         for (let b of range(...ranges[1])) {
             for (let c of range(...ranges[2])) {
                 for (let d of range(...ranges[3])) {
                     if (a + b + c + d === target) {
-                        results.push([a, b, c, d]);
+                        validCombos.push([a, b, c, d]);
                     }
                 }
             }
         }
     }
 
-    return results;
+    if (validCombos.length === 0) {
+        throw new Error("No valid combinations found for target sum.");
+    }
+
+    // Step 2: Pick one at random
+    const combo = validCombos[Math.floor(Math.random() * validCombos.length)];
+
+    // Step 3: Split each number into two parts so both halves sum to target/2
+    const split = [];
+    const halfTarget = target / 2;
+    let runningSum = 0;
+
+    for (let i = 0; i < combo.length; i++) {
+        const num = combo[i];
+        if (i === combo.length - 1) {
+            const part1 = halfTarget - runningSum;
+            const part2 = num - part1;
+            split.push([part1, part2]);
+        } else {
+            const min = Math.max(0, Math.floor(num / 2) - 1);
+            const max = Math.min(num, Math.ceil(num / 2) + 1);
+            const part1 = getRandomInt(min, max);
+            const part2 = num - part1;
+            split.push([part1, part2]);
+            runningSum += part1;
+        }
+    }
+
+    return split;
 }
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function splitIntoTwoRoughlyEqualParts(number) {
-    const half = number / 2;
-    const min = Math.floor(half - 1);
-    const max = Math.ceil(half + 1);
-
-    const first = getRandomInt(min, max);
-    const second = number - first;
-    return [first, second];
-}
-function getRandomValidCombination(ranges, target) {
-    const valid = generateAllValidCombinations(ranges, target);
-    if (valid.length === 0) {
-        throw new Error("No valid combinations found.");
-    }
-    const randomIndex = Math.floor(Math.random() * valid.length);
-    return valid[randomIndex].map(splitIntoTwoRoughlyEqualParts);
 }
 function shuffle(array) {
     const arr = [...array];
@@ -86,7 +97,7 @@ async function getData() {
 }
 
 function getRW(data) {
-    const questionAmounts = getRandomValidCombination([
+    const questionAmounts = getRandomBalancedSplitCombo([
         [13, 15], // Craft and Structure
         [12, 14], // Information and Ideas
         [11, 15], // Standard English Conventions
@@ -112,7 +123,7 @@ function getRW(data) {
 }
 
 function getMath(data) {
-    const questionAmounts = getRandomValidCombination([
+    const questionAmounts = getRandomBalancedSplitCombo([
         [13, 15], // Algebra
         [13, 15], // Advanced Math
         [5, 7], // Problem-Solving and Data Analysis
