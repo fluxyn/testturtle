@@ -31,8 +31,12 @@ function getRandomBalancedSplitCombo(ranges, target) {
 
     for (let i = 0; i < combo.length; i++) {
         const num = combo[i];
+
         if (i === combo.length - 1) {
-            const part1 = halfTarget - runningSum;
+            let part1 = halfTarget - runningSum;
+
+            // Clamp to valid range [0, num]
+            part1 = Math.max(0, Math.min(num, Math.round(part1)));
             const part2 = num - part1;
             split.push([part1, part2]);
         } else {
@@ -86,6 +90,18 @@ function distributeByPercentages(total, percentages) {
 const module1Distributions = [0.07, 0.74, 0.19]
 const module2EasyDistributions = [0.26, 0.7, 0.04]
 const module2HardDistributions = [0.04, 0.63, 0.33]
+const rwQuestionRanges = [
+    [13, 15], // Craft and Structure
+    [12, 14], // Information and Ideas
+    [11, 15], // Standard English Conventions
+    [8, 12]   // Expression of Ideas
+]
+const mathQuestionRanges = [
+    [13, 15], // Algebra
+    [13, 15], // Advanced Math
+    [5, 7],   // Problem-Solving and Data Analysis
+    [5, 7]    // Geometry and Trigonometry
+]
 
 const difficultyMap = ['E', 'M', 'H']
 const domainMapRW = ['CAS', 'INI', 'SEC', 'EOI']
@@ -97,12 +113,7 @@ async function getData() {
 }
 
 function getRW(data) {
-    const questionAmounts = getRandomBalancedSplitCombo([
-        [13, 15], // Craft and Structure
-        [12, 14], // Information and Ideas
-        [11, 15], // Standard English Conventions
-        [8, 12]  // Expression of Ideas
-    ], 54)
+    const questionAmounts = getRandomBalancedSplitCombo(rwQuestionRanges, 54)
 
     let questions = []
     
@@ -123,41 +134,69 @@ function getRW(data) {
 }
 
 function getMath(data) {
-    const questionAmounts = getRandomBalancedSplitCombo([
-        [13, 15], // Algebra
-        [13, 15], // Advanced Math
-        [5, 7], // Problem-Solving and Data Analysis
-        [5, 7]  // Geometry and Trigonometry
-    ], 44)
+    const questionAmounts = getRandomBalancedSplitCombo(mathQuestionRanges, 44)
+    
+    const questionAmountsShuffled = shuffle(
+        Array(questionAmounts[0][0]).fill('H').concat(
+        Array(questionAmounts[1][0]).fill('P'),
+        Array(questionAmounts[2][0]).fill('Q'),
+        Array(questionAmounts[3][0]).fill('S'))
+    )
+    
+    const fillInType = getRandomInt(0, 1)
+    
+    let fillIns = []
+    if (fillInType) {
+        fillIns = shuffle(Array(16).fill('mcq').concat(Array(6).fill('spr')))
+    } else {
+        fillIns = shuffle(Array(17).fill('mcq').concat(Array(5).fill('spr')))
+    }
 
-    //16 - 17
-    //5 - 6
+    let questions = []
 
-    console.log(questionAmounts)
+    const distributions = distributeByPercentages(22, module1Distributions)
+    const d = shuffle(Object.entries(data))
+    fillIns.forEach((ansType, i) => {
+        let diff
+        if (i < distributions[0]) {
+            diff = 'E'
+        } else if (i < (distributions[0] + distributions[1])) {
+            diff = 'M'
+        } else if (i < (distributions[0] + distributions[1] + distributions[2])) {
+            diff ='H'
+        }
+        
+        let x = 0
+        while (d[x][1]['primary_class_cd'] != questionAmountsShuffled[i] || d[x][1]['difficulty'] != diff || d[x][1]['content']['type'] != ansType || questions.includes(d[x][0])) {
+            x++
+        }
+        questions.push(d[x][0])
+    })
+
+    console.log(questions)
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('form').addEventListener('submit', (e) => {
         e.preventDefault()
-        const formData = new FormData(document.getElementById('form'))
-        
-        if (formData.get('rw') == 'on' && formData.get('math') == 'off') {
+
+        if (document.getElementById('rw').checked && !document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getRW(data)
                 })
-        } else if (formData.get('rw') == 'off' && formData.get('math') == 'on') {
+        } else if (!document.getElementById('rw').checked && document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getMath(data)
                 })
-        } else if (formData.get('rw') == 'on' && formData.get('math') == 'on') {
+        } else if (document.getElementById('rw').checked && document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getRW(data)
                     getMath(data)
                 })
-        } else if (formData.get('rw') == 'off' && formData.get('math') == 'off') {
+        } else if (!document.getElementById('rw').checked && !document.getElementById('math').checked) {
             alert('At least one module must be selected.')
         }
     })
