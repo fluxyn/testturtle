@@ -114,6 +114,7 @@ async function getData() {
 
 function getRW(data) {
     const questionAmounts = getRandomBalancedSplitCombo(rwQuestionRanges, 54)
+    localStorage.setItem('rw-questionAmounts', JSON.stringify(questionAmounts))
 
     let questions = []
     
@@ -130,20 +131,28 @@ function getRW(data) {
         })
     }
 
-    console.log(questions)
+    localStorage.setItem('rw-mod1-questions', JSON.stringify(questions))
 }
 
 function getMath(data) {
     const questionAmounts = getRandomBalancedSplitCombo(mathQuestionRanges, 44)
-    
+    localStorage.setItem('math-questionAmounts', JSON.stringify(questionAmounts))
+
     const questionAmountsShuffled = shuffle(
         Array(questionAmounts[0][0]).fill('H').concat(
         Array(questionAmounts[1][0]).fill('P'),
         Array(questionAmounts[2][0]).fill('Q'),
         Array(questionAmounts[3][0]).fill('S'))
     )
-    
+
+    /*
+    fillInType = 1
+        16 mcq, 6 spr
+    fillInType = 0
+        17 mcq, 5 spr
+    */
     const fillInType = getRandomInt(0, 1)
+    localStorage.setItem('math-fillInType', fillInType)
     
     let fillIns = []
     if (fillInType) {
@@ -173,28 +182,32 @@ function getMath(data) {
         questions.push(d[x][0])
     })
 
-    console.log(questions)
+    localStorage.setItem('math-mod1-questions', JSON.stringify(questions))
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('form').addEventListener('submit', (e) => {
         e.preventDefault()
+        localStorage.clear()
 
         if (document.getElementById('rw').checked && !document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getRW(data)
+                    window.location.href = '/test?section=rw&module=0&q=0'
                 })
         } else if (!document.getElementById('rw').checked && document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getMath(data)
+                    window.location.href = '/test?section=math&module=0&q=0'
                 })
         } else if (document.getElementById('rw').checked && document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getRW(data)
                     getMath(data)
+                    window.location.href = '/test?section=rw&module=0&q=0'
                 })
         } else if (!document.getElementById('rw').checked && !document.getElementById('math').checked) {
             alert('At least one module must be selected.')
