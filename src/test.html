@@ -7,8 +7,92 @@
     <link rel="stylesheet" href="styles/test.css">
     <script src="scripts/test.js"></script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 </head>
 <body>
+    <!--<span class="strikethrough">ABC</span>-->
 
+    <header>
+        <div class="headfoot-left">
+            <h3 id="title"></h3>
+            <button type="button">
+                <span>Directions <i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+        </div>
+        <div id="time-div">
+            <h3 id="time"></h3>
+            <button type="button">Hide</button>
+        </div>
+        <div id="rw-buttons" class="headfoot-right" style="display: none;">
+            <button type="button">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <span>More</p>
+            </button>
+            <button type="button">
+                <i class="fa-solid fa-pencil"></i>
+                <span>Annotate</p>
+            </button>
+        </div>
+        <div id="math-buttons" class="headfoot-right" style="display: none;">
+            <button type="button">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <span>More</p>
+            </button>
+            <button type="button">
+                <i class="fa-solid fa-superscript"></i>
+                <span>Reference</p>
+            </button>
+            <button type="button">
+                <i class="fa-solid fa-calculator"></i>
+                <span>Calculator</p>
+            </button>
+        </div>
+    </header>
+    <div class="lines-long"></div>
+    <form>
+        <main>
+            <div id="left" style="display: none;">
+                <div id="spr-directions" style="display: none;">
+                    <!-- add spr directions -->
+                </div>
+                <div id="passage" style="display: none;"></div>
+            </div>
+            <div id="right">
+                <div id="bar">
+                    <span id="question-number"></span>
+                    <button type="button" id="mark-for-review">
+                        <i class="fa-regular fa-bookmark"></i>
+                    </button>
+                    <span>Mark for Review</span>
+                    <button type="button" id="eliminator">ABC</button>
+                </div>
+                <div class="lines-short"></div>
+                <div id="question"></div>
+                <fieldset id="mcq" style="display: none;">
+                    <input type="radio" id="option-a" name="option"></input>
+                    <label for="option-a"></label>
+                    <input type="radio" id="option-b" name="option"></input>
+                    <label for="option-b"></label>
+                    <input type="radio" id="option-c" name="option"></input>
+                    <label for="option-c"></label>
+                    <input type="radio" id="option-d" name="option"></input>
+                    <label for="option-d"></label>
+                </fieldset>
+                <div id="spr" style="display: none;">
+                    <input type="text" id="spr-input" name="spr-input">
+                    <h3>Answer Preview:</h3>
+                </div>
+            </div>
+        </main>
+        <div class="lines-long"></div>
+        <footer>
+            <h3 class="headfoot-left" id="name"></h3>
+            <button type="button" id="question-nav"></button>
+            <div class="headfoot-right">
+                <button id="next">Next</button>
+                <button id="back">Back</button>
+            </div>
+        </footer>
+    </form>
 </body>
 </html>

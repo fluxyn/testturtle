@@ -126,12 +126,12 @@ function getRW(data) {
                 while (d[x][1]['primary_class_cd'] != domainMapRW[domain] || d[x][1]['difficulty'] != difficultyMap[diff] || questions.includes(d[x][0])) {
                     x++
                 }
-                questions.push(d[x][0])
+                questions.push(d[x][1])
             }
         })
     }
 
-    localStorage.setItem('rw-mod1-questions', JSON.stringify(questions))
+    localStorage.setItem('rw0', JSON.stringify(questions))
 }
 
 function getMath(data) {
@@ -179,10 +179,10 @@ function getMath(data) {
         while (d[x][1]['primary_class_cd'] != questionAmountsShuffled[i] || d[x][1]['difficulty'] != diff || d[x][1]['content']['type'] != ansType || questions.includes(d[x][0])) {
             x++
         }
-        questions.push(d[x][0])
+        questions.push(d[x][1])
     })
 
-    localStorage.setItem('math-mod1-questions', JSON.stringify(questions))
+    localStorage.setItem('math0', JSON.stringify(questions))
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -190,16 +190,20 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault()
         localStorage.clear()
 
+        localStorage.setItem('name', document.getElementById('name').value)
+
         if (document.getElementById('rw').checked && !document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getRW(data)
+                    localStorage.setItem('start-time', Date.now())
                     window.location.href = '/test?section=rw&module=0&q=0'
                 })
         } else if (!document.getElementById('rw').checked && document.getElementById('math').checked) {
             getData()
                 .then(data => {
                     getMath(data)
+                    localStorage.setItem('start-time', Date.now())
                     window.location.href = '/test?section=math&module=0&q=0'
                 })
         } else if (document.getElementById('rw').checked && document.getElementById('math').checked) {
@@ -207,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     getRW(data)
                     getMath(data)
+                    localStorage.setItem('start-time', Date.now())
                     window.location.href = '/test?section=rw&module=0&q=0'
                 })
         } else if (!document.getElementById('rw').checked && !document.getElementById('math').checked) {
