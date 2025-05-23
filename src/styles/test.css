@@ -70,13 +70,13 @@ h3 {
     color: white;
     background-color: #1e1e1e;
     padding: 9px 15px;
-    border-radius: 5px;
+    border-radius: 7px;
 }
 
 #next, #back {
     color: white;
     background-color: #324dc7;
-    padding: 15px 30px;
+    padding: 13px 25px;
     border-radius: 500px;
 }
 
